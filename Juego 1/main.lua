@@ -1,26 +1,56 @@
 -- El jugador parte en el punto 100,100 (esquina superior izquierda)
  function love.load()
     myImage = love.graphics.newImage("fondo.png")
+    text = love.graphics.newImage("texto.png")
+    text2 = love.graphics.newImage("pollito.png")
+
     song = love.audio.newSource("música.mp3", "stream")
     love.audio.play(song)
     player = {
-        x = 100,
-        y = 100,
+        x = 10,
+        y = 10,
         size = 25,
         image = love.graphics.newImage("chinchilla.png")
     }
 
 
-    coins = {}
+    word_p = {}
+    word_p2 = {}
+    word_q = {}
+    word_q2 = {}
 
-    for i=1,25 do
-        table.insert(coins,
+    for i=1,4 do
+        table.insert(word_p,
             {
-                -- Give it a random position with math.random
-                x = math.random(50, 650),
+                x = math.random(50, 500),
                 y = math.random(50, 450),
-                size = 25,
+                size = 20,
                 image = love.graphics.newImage("papá.png")
+            }
+        )
+        table.insert(word_p2,
+            {
+                x = math.random(50, 500),
+                y = math.random(50, 450),
+                size = 20,
+                image = love.graphics.newImage("pipo.png")
+            }
+        )
+        table.insert(word_q,
+            {
+                x = math.random(50, 500),
+                y = math.random(50, 450),
+                size = 20,
+                image = love.graphics.newImage("queso.png"),
+            }
+        )
+
+        table.insert(word_q2,
+            {
+                x = math.random(50, 500),
+                y = math.random(50, 450),
+                size = 20,
+                image = love.graphics.newImage("queso.png"),
             }
         )
     end
@@ -41,13 +71,34 @@ function love.update(dt)
         player.y = player.y + 200 * dt
     end
 
-     for i,v in ipairs(coins) do
+     for i,v in ipairs(word_p) do
         if checkCollision(player, v) then
-            table.remove(coins, i)
+            table.remove(word_p, i)
             player.size = player.size + 1*dt
         end
     end
+    for i,v in ipairs(word_p2) do
+        if checkCollision(player, v) then
+            table.remove(word_p2, i)
+            player.size = player.size + 1*dt
+        end
+    end
+
+    for i,v in ipairs(word_q)  do
+        if checkCollision(player, v) then
+            love.load()
+        end
+    end
+
+    for i,v in ipairs(word_q2)  do
+        if checkCollision(player, v) then
+            love.load()
+        end
+    end
 end
+
+
+
 
 
 function checkCollision(p1, p2) 
@@ -60,8 +111,26 @@ end
 function love.draw()
     love.graphics.draw(myImage)
     love.graphics.draw(player.image, player.x, player.y,player.size)
+    love.graphics.draw(text, 500, 100)
+    love.graphics.draw(text2, 705, 370)
 
-    for i,v in ipairs(coins) do
+
+    for i,v in ipairs(word_p) do
+        love.graphics.circle("line", v.x, v.y, v.size)
+        love.graphics.draw(v.image, v.x, v.y,
+            0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
+    end
+    for i,v in ipairs(word_p2) do
+        love.graphics.circle("line", v.x, v.y, v.size)
+        love.graphics.draw(v.image, v.x, v.y,
+            0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
+    end
+    for i,v in ipairs(word_q) do
+        love.graphics.circle("line", v.x, v.y, v.size)
+        love.graphics.draw(v.image, v.x, v.y,
+            0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
+    end
+    for i,v in ipairs(word_q2) do
         love.graphics.circle("line", v.x, v.y, v.size)
         love.graphics.draw(v.image, v.x, v.y,
             0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
